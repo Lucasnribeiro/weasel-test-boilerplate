@@ -1,0 +1,55 @@
+get 100 repos from user
+{
+  user(login: "armsp") {
+    repositories(first: 100) {
+      edges {
+        node {
+          name
+        }
+      }
+    }
+  }
+  rateLimit {
+    cost
+    remaining
+    used
+  }
+}
+
+get weasel.json from repo
+query RepoFiles {
+  repository(owner: "lucasnribeiro", name: "weasel-test-boilerplate") {
+    file1: object(expression: "HEAD:weasel.json") {
+      ... on Blob {
+        text
+        byteSize
+      }
+    }
+  }
+}
+
+get weasel.json from many repos at cost of 1
+
+query RepoFiles {
+  repo1: repository(owner: "lucasnribeiro", name: "weasel-test-boilerplate") {
+    file1: object(expression: "HEAD:weasel.json") {
+      ... on Blob {
+        text
+        byteSize
+      }
+    }
+  }
+  repo2: repository(owner: "facebook", name: "create-react-app") {
+    file1: object(expression: "HEAD:weasel.json") {
+      ... on Blob {
+        text
+        byteSize
+      }
+    }
+  }
+  rateLimit {
+    cost
+    remaining
+    used
+  }
+}
