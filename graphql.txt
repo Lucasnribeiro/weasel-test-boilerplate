@@ -53,3 +53,28 @@ query RepoFiles {
     used
   }
 }
+
+get all user repos with weasel
+
+{
+  user(login: "lucasnribeiro") {
+    repositories(first: 100) {
+      edges {
+        node {
+          name
+          object(expression: "HEAD:weasel.json") {
+            ... on Blob {
+              text
+              byteSize
+            }
+          }
+        }
+      }
+    }
+  }
+  rateLimit {
+    cost
+    remaining
+    used
+  }
+}
